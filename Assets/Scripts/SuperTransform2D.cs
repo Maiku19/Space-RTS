@@ -3,6 +3,7 @@ using UnityEngine;
 public class SuperTransform2D : MonoBehaviour
 {
 	[SerializeField] private SpriteRenderer sr;
+	[SerializeField] private TrailRenderer tlr;
 	[SerializeField] private Component[] cloneComponents;
 
 	[HideInInspector] public GameObject[] clones = new GameObject[3];
@@ -68,26 +69,19 @@ public class SuperTransform2D : MonoBehaviour
 		}
 	}
 
-	public void SetVisibility(bool visible)
+	public void SetVisibility(bool visibility)
 	{
-		if (visible)
-		{
-			sr.enabled = true;
+		if (sr != null) sr.enabled = visibility;
+		if (tlr != null) tlr.enabled = visibility;
 
-			foreach (GameObject clone in clones)
-			{
-				clone.SetActive(true); // faster than finding and turning off the spriterender.
-			}
-		}
-		else
-		{
-			sr.enabled = false;
 
-			foreach (GameObject clone in clones)
-			{
-				clone.SetActive(false); // faster than finding and turning off the spriterender.
-			}
+		foreach (GameObject clone in clones)
+		{
+			if(clone == null) { return; }
+			clone.SetActive(visibility); // faster than finding and turning off the spriterender.
 		}
+
+		Debug.Log($"Changed visibility of {this} from chunk: ({_chunk.x}, {_chunk.y}) to {visibility}");
 	}
 
 	virtual public void SetPosition(Vector2Int newChunk, Vector2 newPosition)
@@ -101,13 +95,17 @@ public class SuperTransform2D : MonoBehaviour
 	}
 
 	void ChangeChunk(Vector2Int newChunkPosition)
-	{
-		_chunk.RemoveObject(this);
-		_chunk = ChunkMap.GetChunk(newChunkPosition.x, newChunkPosition.y);
-		_chunk.AddObject(this);
-	}
+    {
+        if (new Vector2Int(_chunk.x, _chunk.y) == newChunkPosition) { return; }
 
-	void UpdateClonePositions()
+        _chunk.RemoveObject(this);
+        _chunk = ChunkMap.GetChunk(newChunkPosition.x, newChunkPosition.y);
+        _chunk.AddObject(this);
+
+        UpdateVisibility();
+    }
+
+    void UpdateClonePositions()
 	{
 		if(clones[0] == null) { return; }
 
@@ -119,11 +117,11 @@ public class SuperTransform2D : MonoBehaviour
 		clones[1].transform.position = (Vector2)transform.position + ChunkMap.chunkSize * 2 * new Vector2(0, -mulVector.y);
 		clones[2].transform.position = (Vector2)transform.position + ChunkMap.chunkSize * 2 * -mulVector;
 
-        foreach (GameObject clone in clones)
-        {
+		foreach (GameObject clone in clones)
+		{
 			clone.transform.localScale = Vector2.one;
 			clone.transform.rotation = transform.rotation;
-        }
+		}
 	}
 
 	public virtual void InitializeClones()
@@ -179,4 +177,18 @@ public class SuperTransform2D : MonoBehaviour
 
 		return d;
 	}
+
+    private void UpdateVisibility()
+    {
+        if (Mathf.Abs(_chunk.x - SuperTransformCamera.Instance.Chunk.x) > 1 ||
+                    Mathf.Abs(_chunk.y - SuperTransformCamera.Instance.Chunk.y) > 1)
+        {
+            SetVisibility(false);
+        }
+        else if (Mathf.Abs(_chunk.x - SuperTransformCamera.Instance.Chunk.x) <= 1 &&
+            Mathf.Abs(_chunk.y - SuperTransformCamera.Instance.Chunk.y) <= 1)
+        {
+            SetVisibility(true);
+        }
+    }
 }

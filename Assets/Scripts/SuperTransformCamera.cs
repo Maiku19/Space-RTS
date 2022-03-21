@@ -29,6 +29,11 @@ public class SuperTransformCamera : SuperTransform2D
     
     Camera cam;
 
+    private void Awake()
+    {
+        _instance = this;
+    }
+
     private void Update()
     {
         Move(Input.GetAxis("Horizontal") * cam.orthographicSize * speed, Input.GetAxis("Vertical") * cam.orthographicSize * speed);
@@ -82,20 +87,24 @@ public class SuperTransformCamera : SuperTransform2D
         // This can be optimized
         if (newChunk != new Vector2Int(Chunk.x, Chunk.y))
         {
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    currentChunks[x + 1, y + 1].SetVisiblity(false);
-
-                    ChunkMap.GetChunk(Chunk.x + x, Chunk.y + y).SetVisiblity(true);
-
-                    currentChunks[x + 1, y + 1] = ChunkMap.GetChunk(Chunk.x + x, Chunk.y + y);
-                }
-            }
-
+            UpdateVisibility();
         }
 
         base.SetPosition(newChunk, newPosition);
+    }
+
+    void UpdateVisibility()
+    {
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                currentChunks[x + 1, y + 1].SetVisiblity(false);
+
+                ChunkMap.GetChunk(Chunk.x + x, Chunk.y + y).SetVisiblity(true);
+
+                currentChunks[x + 1, y + 1] = ChunkMap.GetChunk(Chunk.x + x, Chunk.y + y);
+            }
+        }
     }
 }
