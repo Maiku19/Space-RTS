@@ -7,12 +7,9 @@ public class SuperTransformCamera : SuperTransform2D
     [SerializeField] float speed;
     [SerializeField] float zoomSpeed;
 
-    private ChunkMap.Chunk[,] currentChunks = new ChunkMap.Chunk[3, 3];
+    private Chunk[,] currentChunks = new Chunk[3, 3];
 
     private static SuperTransformCamera _instance;
-
-    public delegate void OnChunkChanged(ChunkMap.Chunk newChunk);
-
     public static SuperTransformCamera Instance
     {
         get
@@ -25,7 +22,6 @@ public class SuperTransformCamera : SuperTransform2D
             return _instance;
         }
     }
-    public static OnChunkChanged chunkUpdate;
     
     Camera cam;
 
@@ -51,10 +47,6 @@ public class SuperTransformCamera : SuperTransform2D
 
     // -------------
 
-    public override void InitializeClones()
-    {
-        
-    }
 
     void UpdateCameras(float orthographicSize)
     {
@@ -75,9 +67,9 @@ public class SuperTransformCamera : SuperTransform2D
     {
         for (int x = -1; x <= 1; x++)
         {
-            for (int y = -1; y < 1; y++)
+            for (int y = -1; y <= 1; y++)
             {
-                currentChunks[x + 1, y + 1] = ChunkMap.GetChunk(Chunk.x + x, Chunk.y + y);
+                currentChunks[x + 1, y + 1] = ChunkMap.GetChunk(CurrentChunk.x + x, CurrentChunk.y + y);
             }
         }
     }
@@ -85,7 +77,7 @@ public class SuperTransformCamera : SuperTransform2D
     public override void SetPosition(Vector2Int newChunk, Vector2 newPosition)
     {
         // This can be optimized
-        if (newChunk != new Vector2Int(Chunk.x, Chunk.y))
+        if (newChunk != new Vector2Int(CurrentChunk.x, CurrentChunk.y))
         {
             UpdateVisibility();
         }
@@ -95,15 +87,19 @@ public class SuperTransformCamera : SuperTransform2D
 
     void UpdateVisibility()
     {
+        foreach (Chunk chunk in currentChunks)
+        {
+            chunk.SetVisiblity(false);
+        }
+
+        currentChunks = new Chunk[currentChunks.GetLength(0), currentChunks.GetLength(1)];
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
             {
-                currentChunks[x + 1, y + 1].SetVisiblity(false);
+                ChunkMap.GetChunk(CurrentChunk.x + x, CurrentChunk.y + y).SetVisiblity(true);
 
-                ChunkMap.GetChunk(Chunk.x + x, Chunk.y + y).SetVisiblity(true);
-
-                currentChunks[x + 1, y + 1] = ChunkMap.GetChunk(Chunk.x + x, Chunk.y + y);
+                currentChunks[x + 1, y + 1] = ChunkMap.GetChunk(CurrentChunk.x + x, CurrentChunk.y + y);
             }
         }
     }

@@ -245,7 +245,7 @@ Transform:
   - {fileID: 580483855}
   - {fileID: 1078994224}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -261,12 +261,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sr: {fileID: 0}
   tlr: {fileID: 0}
-  cloneComponents:
-  - {fileID: 519420031}
-  clones:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   _position: {x: 0, y: 0}
   _chunk:
     objectsInChunk: []
@@ -327,7 +321,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -516,7 +510,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -592,7 +586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8742538545776668643, guid: 2a97831ee7289d642b3bceae73eadd21, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8742538545776668643, guid: 2a97831ee7289d642b3bceae73eadd21, type: 3}
       propertyPath: m_LocalScale.x
@@ -673,7 +667,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1148819049
 MonoBehaviour:
@@ -738,7 +732,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -843,7 +837,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1456362035
 GameObject:
@@ -1002,11 +996,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -3888481672020999207, guid: 2a97831ee7289d642b3bceae73eadd21, type: 3}
   m_PrefabInstance: {fileID: 1506078648}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &1506078650 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: -7871556540511652807, guid: 2a97831ee7289d642b3bceae73eadd21, type: 3}
-  m_PrefabInstance: {fileID: 1506078648}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1506078651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,12 +1010,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sr: {fileID: 0}
   tlr: {fileID: 0}
-  cloneComponents:
-  - {fileID: 1506078650}
-  clones:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   _position: {x: 0, y: 0}
   _chunk:
     objectsInChunk: []
@@ -1051,13 +1034,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sr: {fileID: 1732108230}
   tlr: {fileID: 1732108233}
-  cloneComponents:
-  - {fileID: 1732108230}
-  - {fileID: 1732108233}
-  clones:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   _position: {x: 0, y: 0}
   _chunk:
     objectsInChunk: []

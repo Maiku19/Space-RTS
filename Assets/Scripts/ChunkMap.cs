@@ -3,42 +3,6 @@ using UnityEngine;
 
 public class ChunkMap : MonoBehaviour
 {
-    [System.Serializable]
-    public struct Chunk
-    {
-        public SuperTransform2D[] objectsInChunk;
-        public int x;
-        public int y;
-
-        public Chunk(Vector2Int pos)
-        {
-            objectsInChunk = new SuperTransform2D[0];
-            x = pos.x;
-            y = pos.y;
-        }
-
-        public void AddObject(SuperTransform2D st)
-        {
-            Debug.Log($"Added {st} from chunk: ({x}, {y})");
-            MikeArray.Append(ref objectsInChunk, st);
-        }
-
-        public void RemoveObject(SuperTransform2D st)
-        {
-            Debug.Log($"Removed {st} from chunk: ({x}, {y})");
-            MikeArray.RemoveByReference(ref objectsInChunk, ref st);
-        }
-
-        public void SetVisiblity(bool visibility)
-        {
-            if (objectsInChunk == null) { return; }
-            foreach (SuperTransform2D st in objectsInChunk)
-            {
-                st.SetVisibility(visibility);
-            }
-        }
-    }
-
     [SerializeField] private Vector2 _chunkSize = Vector2.one * 10_000;
     [SerializeField] private Vector2Int _mapSize = Vector2Int.one * 100;
 
@@ -54,7 +18,6 @@ public class ChunkMap : MonoBehaviour
         {
             if (_chunks == null)
             {
-                _chunks = new Chunk[mapSize.x * 2, mapSize.y * 2];
                 SpawnChunks();
             }
 
@@ -64,19 +27,25 @@ public class ChunkMap : MonoBehaviour
 
     void Awake()
     {
-        chunkSize = _chunkSize;
+        InitializeVariables();
 
         if (_chunks == null)
         {
-            _chunks = new Chunk[mapSize.x * 2, mapSize.y * 2];
             SpawnChunks();
         }
     }
 
-    public static Chunk GetChunk(int x, int y) { return _chunks[x + mapSize.x, y + mapSize.y]; }
+    void InitializeVariables()
+    {
+        chunkSize = _chunkSize;
+        mapSize = _mapSize;
+    }
+
+    public static Chunk GetChunk(int x, int y) { if (Chunks == null) { SpawnChunks(); } return Chunks[x + mapSize.x, y + mapSize.y]; }
 
     private static void SpawnChunks()
     {
+        _chunks = new Chunk[mapSize.x * 2, mapSize.y * 2];
         for (int x = 0; x < mapSize.x * 2; x++)
         {
             for (int y = 0; y < mapSize.y * 2; y++)
@@ -84,5 +53,22 @@ public class ChunkMap : MonoBehaviour
                 _chunks[x, y] = new Chunk(new Vector2Int(x - mapSize.x, y - mapSize.y));
             }
         }
+    }
+
+    public static void SpawnObject(GameObject go, Vector2Int chunkPosition, Vector2 positionInChunk, Quaternion? rot = null, Transform parent = null)
+    {
+        GameObject objectInstance = Instantiate(go, parent);
+        if(rot != null) { objectInstance.transform.rotation = (Quaternion) rot; }
+        if(objectInstance.TryGetComponent(out SuperTransform2D str)) { str = objectInstance.AddComponent<SuperTransform2D>(); };
+
+        str.SetPosition(chunkPosition, positionInChunk);
+    }
+
+    public static void RegisterObject(GameObject go, Vector2Int chunkPosition, Vector2 positionInChunk, Quaternion? rot = null, Transform parent = null)
+    {
+        if (rot != null) { go.transform.rotation = (Quaternion)rot; }
+        if (go.TryGetComponent(out SuperTransform2D str)) { str = go.AddComponent<SuperTransform2D>(); };
+
+        str.SetPositionRaw(GetChunk(chunkPosition.x, chunkPosition.y), positionInChunk);
     }
 }
