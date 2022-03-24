@@ -27,12 +27,12 @@ public class Chunk
         Debug.Log($"Removed {st} from chunk: ({x}, {y})");
     }
 
-    public void SetVisiblity(bool visibility)
+    public void UpdateVisibility()
     {
         if (objectsInChunk == null) { return; }
         foreach (SuperTransform2D st in objectsInChunk)
         {
-            st.SetVisibility(visibility);
+            st.UpdateVisibility();
         }
     }
 }

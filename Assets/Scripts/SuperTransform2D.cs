@@ -171,17 +171,27 @@ public class SuperTransform2D : MonoBehaviour
         return d;
     }
 
-    private void UpdateVisibility()
+    public void UpdateVisibility()
     {
-        if (Mathf.Abs(_chunk.x - SuperTransformCamera.Instance.CurrentChunk.x) > 1 ||
-                    Mathf.Abs(_chunk.y - SuperTransformCamera.Instance.CurrentChunk.y) > 1)
+        int distX = Mathf.Abs(_chunk.x - SuperTransformCamera.Instance.CurrentChunk.x);
+        int distY = Mathf.Abs(_chunk.y - SuperTransformCamera.Instance.CurrentChunk.y);
+
+        if (distX > 1 || distY > 1)
         {
             SetVisibility(false);
         }
-        else if (Mathf.Abs(_chunk.x - SuperTransformCamera.Instance.CurrentChunk.x) <= 1 &&
-            Mathf.Abs(_chunk.y - SuperTransformCamera.Instance.CurrentChunk.y) <= 1)
+        else if (distX <= 1 && distY <= 1)
         {
             SetVisibility(true);
+
+            if(distX == 1 || distX == 1)
+            {
+                gameObject.layer = 6;
+            }
+            else
+            {
+                gameObject.layer = 7;
+            }
         }
     }
 }

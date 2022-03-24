@@ -79,17 +79,17 @@ public class SuperTransformCamera : SuperTransform2D
         // This can be optimized
         if (newChunk != new Vector2Int(CurrentChunk.x, CurrentChunk.y))
         {
-            UpdateVisibility();
+            UpdateChunkVisibility();
         }
 
         base.SetPosition(newChunk, newPosition);
     }
 
-    void UpdateVisibility()
+    void UpdateChunkVisibility()
     {
         foreach (Chunk chunk in currentChunks)
         {
-            chunk.SetVisiblity(false);
+            chunk.UpdateVisibility();
         }
 
         currentChunks = new Chunk[currentChunks.GetLength(0), currentChunks.GetLength(1)];
@@ -97,7 +97,7 @@ public class SuperTransformCamera : SuperTransform2D
         {
             for (int y = -1; y <= 1; y++)
             {
-                ChunkMap.GetChunk(CurrentChunk.x + x, CurrentChunk.y + y).SetVisiblity(true);
+                ChunkMap.GetChunk(CurrentChunk.x + x, CurrentChunk.y + y).UpdateVisibility();
 
                 currentChunks[x + 1, y + 1] = ChunkMap.GetChunk(CurrentChunk.x + x, CurrentChunk.y + y);
             }
