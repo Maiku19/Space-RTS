@@ -176,22 +176,22 @@ public class SuperTransform2D : MonoBehaviour
         int distX = Mathf.Abs(_chunk.x - SuperTransformCamera.Instance.CurrentChunk.x);
         int distY = Mathf.Abs(_chunk.y - SuperTransformCamera.Instance.CurrentChunk.y);
 
-        if (distX > 1 || distY > 1)
-        {
-            SetVisibility(false);
-        }
-        else if (distX <= 1 && distY <= 1)
+        if (distX <= 1 && distY <= 1)
         {
             SetVisibility(true);
 
-            if(distX == 1 || distX == 1)
+            if (distX == 0 && distX == 0)
             {
-                gameObject.layer = 6;
+                gameObject.layer = 6; // cam chunk
             }
             else
             {
-                gameObject.layer = 7;
+                gameObject.layer = 7; // adjacent cam chunk
             }
+        }
+        else if (distX > 1 || distY > 1)
+        {
+            SetVisibility(false);
         }
     }
 }

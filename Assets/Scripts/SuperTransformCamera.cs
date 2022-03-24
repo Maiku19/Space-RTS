@@ -79,7 +79,9 @@ public class SuperTransformCamera : SuperTransform2D
         // This can be optimized
         if (newChunk != new Vector2Int(CurrentChunk.x, CurrentChunk.y))
         {
+            base.SetPosition(newChunk, newPosition);
             UpdateChunkVisibility();
+            return;
         }
 
         base.SetPosition(newChunk, newPosition);
