@@ -20,6 +20,12 @@ public class SuperTransform2D : MonoBehaviour
             }
 
             ChunkMap.RegisterObject(gameObject, Vector2Int.zero, Vector2.zero);
+
+            if (_chunk != null)
+            {
+                return _chunk;
+            }
+
             return _chunk;
         }
 
@@ -125,7 +131,7 @@ public class SuperTransform2D : MonoBehaviour
         if (new Vector2Int(CurrentChunk.x, CurrentChunk.y) == newChunkPosition) { return; }
         CurrentChunk.RemoveObject(this);
 
-        CurrentChunk = ChunkMap.GetChunk(newChunkPosition.x, newChunkPosition.y);
+        _chunk = ChunkMap.GetChunk(newChunkPosition.x, newChunkPosition.y);
         CurrentChunk.AddObject(this);
 
         UpdateVisibility();
