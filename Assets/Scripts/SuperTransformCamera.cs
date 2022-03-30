@@ -6,6 +6,8 @@ public class SuperTransformCamera : SuperTransform2D
     [SerializeField] Camera[] cams;
     [SerializeField] float speed;
     [SerializeField] float zoomSpeed;
+    [SerializeField] float maxZoomIn;
+    [SerializeField] float maxZoomOut;
 
     private Chunk[,] currentChunks = new Chunk[3, 3];
 
@@ -35,7 +37,7 @@ public class SuperTransformCamera : SuperTransform2D
         Move(Input.GetAxis("Horizontal") * cam.orthographicSize * speed, Input.GetAxis("Vertical") * cam.orthographicSize * speed);
 
         cam.orthographicSize += -Input.mouseScrollDelta.y * cam.orthographicSize * zoomSpeed * Time.deltaTime;
-        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1, 2_500);
+        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, maxZoomIn, maxZoomOut);
         UpdateCameras(cam.orthographicSize);
     }
 
@@ -74,6 +76,11 @@ public class SuperTransformCamera : SuperTransform2D
         }
     }
 
+    /*public override void UpdateVisibility()
+    {
+        return;
+    }*/
+
     public override void SetPosition(Vector2Int newChunk, Vector2 newPosition)
     {
         // This can be optimized
@@ -89,6 +96,8 @@ public class SuperTransformCamera : SuperTransform2D
 
     void UpdateChunkVisibility()
     {
+        // TODO: This can be optimised
+
         foreach (Chunk chunk in currentChunks)
         {
             chunk.UpdateVisibility();

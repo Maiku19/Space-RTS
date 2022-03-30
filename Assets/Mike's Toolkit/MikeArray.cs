@@ -47,11 +47,21 @@ namespace Mike
 
         public static T[] RemoveByIndex<T>(ref T[] array, int elementIndex)
         {
-            for (int i = elementIndex + 1; i < array.Length; i++)
+            T[] temp = new T[array.Length - 1];
+
+            for (int i = 0; i < array.Length; i++)
             {
-                array[i - 1] = array[i];
+                if(i > elementIndex)
+                {
+                    temp[i - 1] = array[i];
+                }
+                else if(i < elementIndex)
+                {
+                    temp[i] = array[i];
+                }
             }
 
+            array = temp;
             return array;
         }
 

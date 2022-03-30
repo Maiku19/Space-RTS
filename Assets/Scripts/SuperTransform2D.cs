@@ -61,6 +61,8 @@ public class SuperTransform2D : MonoBehaviour
 
     void Start()
     {
+        _ = CurrentChunk;
+
         TryGetComponent(out sr);
     }
 
@@ -109,7 +111,6 @@ public class SuperTransform2D : MonoBehaviour
         if (sr != null) sr.enabled = visibility;
         if (tlr != null) tlr.enabled = visibility;
 
-        Debug.Log($"Changed visibility of {this} from chunk: ({_chunk.x}, {_chunk.y}) to {visibility}");
     }
 
     virtual public void SetPosition(Vector2Int newChunk, Vector2 newPosition)
@@ -171,7 +172,7 @@ public class SuperTransform2D : MonoBehaviour
         return d;
     }
 
-    public void UpdateVisibility()
+    public virtual void UpdateVisibility()
     {
         int distX = Mathf.Abs(_chunk.x - SuperTransformCamera.Instance.CurrentChunk.x);
         int distY = Mathf.Abs(_chunk.y - SuperTransformCamera.Instance.CurrentChunk.y);
@@ -180,7 +181,7 @@ public class SuperTransform2D : MonoBehaviour
         {
             SetVisibility(true);
 
-            if (distX == 0 && distX == 0)
+            if (distX == 0 && distY == 0)
             {
                 gameObject.layer = 6; // cam chunk
             }
