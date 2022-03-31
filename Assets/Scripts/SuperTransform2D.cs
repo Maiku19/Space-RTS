@@ -9,6 +9,14 @@ public class SuperTransform2D : MonoBehaviour
     [SerializeField] Vector2 _position;
     [SerializeField] Chunk _chunk;
 
+    public SuperVector2 Position 
+    {
+        get
+        {
+            SuperVector2 sV2 = new SuperVector2(ChunkPosition.x, ChunkPosition.y, CurrentChunk.x, CurrentChunk.y);
+            return sV2;
+        }
+    }
 
     public Chunk CurrentChunk
     {
@@ -53,8 +61,8 @@ public class SuperTransform2D : MonoBehaviour
         }
     }
 
-    public double FullPositionX { get { return ChunkPosition.x + CurrentChunk.x * ChunkMap.chunkSize.x; } }
-    public double FullPositionY { get { return ChunkPosition.y + CurrentChunk.y * ChunkMap.chunkSize.y; } }
+    public double FullPositionX { get { return ChunkMap.chunkSize.x + ChunkPosition.x + CurrentChunk.x * ChunkMap.chunkSize.x; } }
+    public double FullPositionY { get { return ChunkMap.chunkSize.x + ChunkPosition.y + CurrentChunk.y * ChunkMap.chunkSize.y; } }
 
 
     // ----------------------------------------
@@ -70,8 +78,6 @@ public class SuperTransform2D : MonoBehaviour
 
     public void Move(double xIncrement, double yIncrement)
     {
-        // This doesn't work properly
-
         Vector2 chunkOffset = new Vector2(ChunkPosition.x, ChunkPosition.y);
         Vector2Int sign = new Vector2Int(xIncrement + chunkOffset.x >= 0 ? 1 : -1, yIncrement + chunkOffset.y >= 0 ? 1 : -1);
         double xAfterIncrementAbs = AbsD(xIncrement + chunkOffset.x);

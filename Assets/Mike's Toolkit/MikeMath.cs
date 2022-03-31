@@ -15,6 +15,16 @@ namespace Mike
             return value;
         }
 
+        public static double AbsD(double d)
+        {
+            if (d < 0)
+            {
+                return d * -1;
+            }
+
+            return d;
+        }
+
         public static Vector2 PredictFuturePosition2D(Vector2 position, Vector2 heading, float speed, float time)
         {
             return position + heading * speed * time;

@@ -266,13 +266,12 @@ MonoBehaviour:
     objectsInChunk: []
     x: 0
     y: 0
-  grid: {fileID: 2100000, guid: 14a9c624fef5c9841bf2ef302cacb823, type: 2}
   cams:
   - {fileID: 1172122306}
   - {fileID: 580483851}
   - {fileID: 1078994220}
   speed: 0.2
-  zoomSpeed: 2
+  zoomSpeed: 20
   maxZoomIn: 1
   maxZoomOut: 2500
 --- !u!1 &580483850
@@ -963,10 +962,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1732108228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97b3f48da04dada47bb2952e645c1594, type: 3}
+  m_Script: {fileID: 11500000, guid: fcfdcad38b7bba046becda0bfe0e0bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 999
+  sr: {fileID: 0}
+  tlr: {fileID: 0}
+  _position: {x: 0, y: 0}
+  _chunk:
+    objectsInChunk: []
+    x: 0
+    y: 0
+  maxHealth: 0
+  maxShieldHealh: 0
+  modules: []
+  deathFX: {fileID: 0}
+  movementTarget:
+    x: 0
+    y: 0
+    chunkX: 0
+    chunkY: 0
 --- !u!96 &1732108233
 TrailRenderer:
   serializedVersion: 2
