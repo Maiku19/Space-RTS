@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Module : MonoBehaviour
 {
+    public string ModuleName { get { return name; } }
+
+    [Header("Common Settings")]
     public float energyUsageIdle;
-    public float energyUsage;
+    public float energyUsageActive;
+
     public bool isOn = true;
+    public bool modifiesHealth = false;
 
     private Unit unit;
 

@@ -1,22 +1,34 @@
 using UnityEngine;
 using System;
 
-public class Unit : SuperTransform2D
+[RequireComponent(typeof(SuperTransform2D))]
+[RequireComponent(typeof(Health))]
+public class Unit : MonoBehaviour
 {
-    [SerializeField] protected float maxHealth;
-    [SerializeField] protected float maxShieldHealh;
     [SerializeField] protected Module[] modules;
     [SerializeField] protected GameObject deathFX;
-
-    protected float health;
-    protected float shieldHealth;
     [SerializeField] protected SuperVector2 movementTarget = new SuperVector2(0, 0, 0, 0);
+
+    private Health hp = null;
+    protected Health objectHealth
+    {
+        get
+        {
+            return hp = hp == null ? GetComponent<Health>() : hp;
+        }
+    }
+
     protected float energy;
     protected float maxEnergy;
 
-    protected virtual void Awake()
+    SuperTransform2D st = null;
+    protected SuperTransform2D SuperTransform
     {
-        
+        get
+        { 
+            if (st == null) { st = GetComponent<SuperTransform2D>(); }
+            return st;
+        }
     }
 
     protected virtual void Update()
@@ -39,29 +51,26 @@ public class Unit : SuperTransform2D
     {
         // Unit moves twards target position regarding its own position in the world which causes the target to progresivly change course!!!
 
-        double num = targetpos.FullX - FullPositionX;
-        double num2 = targetpos.FullY - FullPositionY;
+        double num = targetpos.FullX - SuperTransform.FullPositionX;
+        double num2 = targetpos.FullY - SuperTransform.FullPositionY;
         Vector2 v = new Vector2((float)num, (float)num2).normalized;
 
-        if (false)
-        {
-            print("target reached");
-            SetPosition(new Vector2Int(targetpos.chunkX, targetpos.chunkY), new Vector2(targetpos.x, targetpos.y));
-            return;
-        }
+        // I'm unsure what I was trying to test here (I've made it a comment in case it's important)
+        /*print("target reached");
+        SuperTransform.SetPosition(new Vector2Int(targetpos.chunkX, targetpos.chunkY), new Vector2(targetpos.x, targetpos.y));
+        return;*/
 
-        Move(v.x * speed, v.y * speed);
+        SuperTransform.Move(v.x * speed, v.y * speed);
     }
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        if(health == 0) { Die(); }
+        
     }
 
     protected virtual void Die()
     {
-        if(deathFX != null) Instantiate(deathFX, ChunkPosition, Quaternion.identity);
+        if(deathFX != null) Instantiate(deathFX, SuperTransform.ChunkPosition, Quaternion.identity);
         Destroy(gameObject);
     } 
 }

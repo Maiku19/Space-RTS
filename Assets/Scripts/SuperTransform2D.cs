@@ -1,15 +1,34 @@
+using Mike;
 using UnityEngine;
 
 public class SuperTransform2D : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private TrailRenderer tlr;
+    private SpriteRenderer[] _SpriteRenderersRaw;
+    private TrailRenderer[] _TrailRenderersRaw;
 
+    private SpriteRenderer[] SpriteRenderers
+    {
+        get
+        {
+            if (_SpriteRenderersRaw == null) { AssignRenderers(); }
+            return _SpriteRenderersRaw;
+        }
+    }
+    private TrailRenderer[] TrailRenderers
+    {
+        get
+        {
+            if (_TrailRenderersRaw == null) { AssignRenderers(); }
+            return _TrailRenderersRaw;
+        }
+    }
 
     [SerializeField] Vector2 _position;
-    [SerializeField] Chunk _chunk;
+    [SerializeField] Vector2Int chunk;
 
-    public SuperVector2 Position 
+
+    Chunk _chunk;
+    public SuperVector2 Position
     {
         get
         {
@@ -28,11 +47,6 @@ public class SuperTransform2D : MonoBehaviour
             }
 
             ChunkMap.RegisterObject(gameObject, Vector2Int.zero, Vector2.zero);
-
-            if (_chunk != null)
-            {
-                return _chunk;
-            }
 
             return _chunk;
         }
@@ -70,11 +84,16 @@ public class SuperTransform2D : MonoBehaviour
     void Start()
     {
         _ = CurrentChunk;
-
-        TryGetComponent(out sr);
+        /*SetPosition(chunk, _position);*/ //this causes an ANR. (adds multiple SuperTransform2D components)
     }
 
     // ----------------------------------------
+
+    public void AssignRenderers()
+    {
+        if (TryGetComponent(out SpriteRenderer comp)) { _SpriteRenderersRaw = GetComponentsInChildren<SpriteRenderer>().Append(comp); }
+        if (TryGetComponent(out TrailRenderer trlComp)) { _TrailRenderersRaw = GetComponentsInChildren<TrailRenderer>().Append(trlComp); }
+    }
 
     public void Move(double xIncrement, double yIncrement)
     {
@@ -112,11 +131,32 @@ public class SuperTransform2D : MonoBehaviour
         }
     }
 
+    void SrSetEnabled(bool enabled)
+    {
+        foreach (SpriteRenderer item in SpriteRenderers)
+        {
+            item.enabled = enabled;
+        }
+    }
+    void TlrSetEnabled(bool enabled)
+    {
+        foreach (TrailRenderer item in TrailRenderers)
+        {
+            item.enabled = enabled;
+        }
+    }
+    void TlrSetEmmiting(bool emmiting)
+    {
+        foreach (TrailRenderer item in TrailRenderers)
+        {
+            item.emitting = emmiting;
+        }
+    }
+
     public void SetVisibility(bool visibility)
     {
-        if (sr != null) sr.enabled = visibility;
-        if (tlr != null) tlr.enabled = visibility;
-
+        SrSetEnabled(visibility);
+        TlrSetEnabled(visibility);
     }
 
     virtual public void SetPosition(Vector2Int newChunk, Vector2 newPosition)
