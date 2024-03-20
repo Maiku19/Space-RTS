@@ -34,7 +34,7 @@ public class SuperTransformCamera : SuperTransform2D
 
     private void Update()
     {
-        Move(Input.GetAxis("Horizontal") * cam.orthographicSize * speed, Input.GetAxis("Vertical") * cam.orthographicSize * speed);
+        Move(Input.GetAxis("Horizontal") * cam.orthographicSize * speed * Time.deltaTime, Input.GetAxis("Vertical") * cam.orthographicSize * speed * Time.deltaTime);
 
         cam.orthographicSize += -Input.mouseScrollDelta.y * cam.orthographicSize * zoomSpeed * Time.deltaTime;
         cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, maxZoomIn, maxZoomOut);

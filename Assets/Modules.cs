@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Modules : MonoBehaviour
 {
-    public Module[] InstalledModules { get; private set; }
+    public Module[] InstalledModules;
 
     public float TakeDamage(float damage)
     {

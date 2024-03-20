@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     public GameObject DeathFX;
     private float hp;
 
-    public Modules modules = null;
+    Modules modules = null;
     public Modules Modules 
     { 
         get 

@@ -26,8 +26,7 @@ public class SuperTransform2D : MonoBehaviour
     [SerializeField] Vector2 _position;
     [SerializeField] Vector2Int chunk;
 
-
-    Chunk _chunk;
+    public Quaternion Rotation { get { return transform.rotation; } set { transform.rotation = value; } }
     public SuperVector2 Position
     {
         get
@@ -36,7 +35,7 @@ public class SuperTransform2D : MonoBehaviour
             return sV2;
         }
     }
-
+    Chunk _chunk;
     public Chunk CurrentChunk
     {
         get
@@ -84,7 +83,6 @@ public class SuperTransform2D : MonoBehaviour
     void Start()
     {
         _ = CurrentChunk;
-        /*SetPosition(chunk, _position);*/ //this causes an ANR. (adds multiple SuperTransform2D components)
     }
 
     // ----------------------------------------

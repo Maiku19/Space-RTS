@@ -50,9 +50,12 @@ public class ChunkMap : MonoBehaviour
     /// <param name="y">The y coordinate in the grid</param>
     /// <returns>The chunk in the provided coordinates. will return null if <paramref name="x"/> or <paramref name="y"/> equal 0</returns>
     public static Chunk GetChunk(int x, int y) 
-    { 
+    {
+        x = x == 0 ? x + 1 : x; // Is skiping the 0 coordinates for x,y a good idea? IDK.
+        y = y == 0 ? y + 1 : y;
+
         if (Chunks == null) { SpawnChunks(); }
-        return x == 0 || y == 0 ? null : Chunks[x + mapSize.x + 1, y + mapSize.y + 1]; 
+        return Chunks[x + mapSize.x, y + mapSize.y]; 
     }
 
     private static void SpawnChunks()
@@ -79,7 +82,7 @@ public class ChunkMap : MonoBehaviour
     public static void RegisterObject(GameObject go, Vector2Int chunkPosition, Vector2 positionInChunk, Quaternion? rot = null, Transform parent = null)
     {
         if (rot != null) { go.transform.rotation = (Quaternion)rot; }
-        if (go.TryGetComponent(out SuperTransform2D str)) { str = go.AddComponent<SuperTransform2D>(); };
+        if (!go.TryGetComponent(out SuperTransform2D str)) { str = go.AddComponent<SuperTransform2D>(); };
 
         str.SetPositionRaw(GetChunk(chunkPosition.x, chunkPosition.y), positionInChunk);
     }

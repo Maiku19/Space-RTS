@@ -224,12 +224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modules: []
-  deathFX: {fileID: 0}
   movementTarget:
-    x: 0
-    y: 0
-    chunkX: 0
-    chunkY: 0
+    x: 25.49
+    y: 14.93
+    chunkX: 2
+    chunkY: 1
 --- !u!114 &3590739808063762930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +242,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 0
-  maxShieldHealh: 0
   DeathFX: {fileID: 0}
 --- !u!114 &6055655457776308840
 MonoBehaviour:
@@ -257,3 +255,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0791913dde91a454ab46129391f812fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InstalledModules: []

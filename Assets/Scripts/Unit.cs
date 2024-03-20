@@ -6,7 +6,6 @@ using System;
 public class Unit : MonoBehaviour
 {
     [SerializeField] protected Module[] modules;
-    [SerializeField] protected GameObject deathFX;
     [SerializeField] protected SuperVector2 movementTarget = new SuperVector2(0, 0, 0, 0);
 
     private Health hp = null;
@@ -62,15 +61,4 @@ public class Unit : MonoBehaviour
 
         SuperTransform.Move(v.x * speed, v.y * speed);
     }
-
-    public void TakeDamage(float damage)
-    {
-        
-    }
-
-    protected virtual void Die()
-    {
-        if(deathFX != null) Instantiate(deathFX, SuperTransform.ChunkPosition, Quaternion.identity);
-        Destroy(gameObject);
-    } 
 }
